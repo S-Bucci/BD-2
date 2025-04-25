@@ -2,7 +2,14 @@
 
 ### Punto 1
 
+Al eliminar un estudiante con cursos inscritos, se puede romper la integridad referencial, ya que existirían registros en la tabla de inscripciones que referencian a un estudiante que ya no existe.<br>
+
+`ON DELETE RESTRICT:` impide eliminar al estudiante si hay inscripciones asociadas.<br>
+`ON DELETE CASCADE:` elimina automáticamente las inscripciones del estudiante eliminado.<br>
+
 Se recomienda `RESTRICT` si se desea conservar el historial de cursos y evitar pérdidas accidentales de información.
+
+
 
 ### Punto 2
 
@@ -75,7 +82,7 @@ Devolvió 7929 columnas y tardo 16 milésimas<br>
 
 ### Punto 6
 
-![Imagen Punto 6](/TP1/imagenes/Punto6.png)
+![Imagen Punto 6](/TP1/imagenes/Punto6.PNG)
 
 ### Punto 7
 
