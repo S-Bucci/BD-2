@@ -1,0 +1,33 @@
+use('empresa')
+
+db.empleados.drop()
+db.createCollection('empleados')
+
+db.empleados.insertMany([
+    { 
+        nombre: 'Juan',
+        edad: 30, 
+        puesto: 'Desarrollador'
+    },
+    { 
+        nombre: 'Ana', 
+        edad: 25, 
+        puesto: 'Diseñadora'
+    },
+    { 
+        nombre: 'Luis', 
+        edad: 35, 
+        puesto: 'Pasante'
+    }
+])
+
+db.empleados.updateOne(
+    { nombre: 'Juan' },
+    { $set: { edad: 40 } }
+)
+
+db.empleados.deleteOne(
+    { puesto: 'Pasante' }
+)
+
+db.empleados.find()

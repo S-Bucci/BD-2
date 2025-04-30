@@ -1,0 +1,27 @@
+use('empresa')
+
+db.createCollection('clientes')
+db.clientes.insertMany([
+    { 
+        nombre: 'Carlos',
+        apellido: 'Gomez', 
+        edad: 28,
+    },
+    { 
+        nombre: 'Maria', 
+        apellido: 'Lopez', 
+        edad: 35
+    },
+    { 
+        nombre: 'Pedro', 
+        apellido: 'Martinez', 
+        edad: 40
+    }
+])
+
+db.clientes.createIndex(
+    { nombre: 1, apellido: 1 },
+)
+
+use('empresa')
+db.clientes.getIndexes()
