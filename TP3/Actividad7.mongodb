@@ -1,0 +1,55 @@
+use ('tiendaOnline')
+
+db.productos.aggregate([
+    {
+        $project: {
+            _id: 1,
+            nombre: 1,
+            precio: 1,
+            categoria: 1,
+            clasificacion_productos: {
+                $switch: {
+                    branches: [
+                        { case: { $lt: ["$precio", 100] }, then: "Económico" },
+                        { case: { $and: [{ $gte: ["$precio", 100] }, { $lte: ["$precio", 500] }] }, then: "Estándar" },
+                        { case: { $gt: ["$precio", 500] }, then: "Premium" }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        $group: {
+            _id: "$clasificacion_productos",
+            productos: { $push: { nombre: "$nombre", precio: "$precio", categoria: "$categoria" } }
+        } 
+    }
+]);
+
+use ('tiendaOnline')
+
+db.ventas.aggregate([
+    {
+        $project: {
+            _id: 1,
+            cliente: 1,
+            total: 1,
+            clasificacion_ventas: {
+                $switch: {
+                    branches: [
+                        { case: { $lt: ["$total", 200] }, then: "Pequena" },
+                        { case: { $and: [{ $gte: ["$total", 200] }, { $lte: ["$total", 800] }] }, then: "Mediana" },
+                        { case: { $gt: ["$total", 800] }, then: "Grande" }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        $group: {
+            _id: "$clasificacion_ventas",
+            totalVentas: { $sum: "$total" },
+            cantidadVentas: { $sum: 1 }
+        } 
+    }
+]);
